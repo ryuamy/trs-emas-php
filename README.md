@@ -1,5 +1,5 @@
 # Treasury PHP API Third Party Library
-using [Treasury](https://www.treasury.id/) API v2, please make sure Treasury API version and read API [procedure below](#procedure) for flow of registration and transaction.
+using [Treasury](https://www.treasury.id/) API v2, please make sure Treasury API version you gonna use and read API [procedure below](#procedure) for flow of registration and transaction.
 
 
 
@@ -17,19 +17,16 @@ use Ryuamy\TrsEmas;
 ```
 
 
-## Usages
+## Usages and Example
+
+Parameters detail: 
+* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
+* bodyParameters: request body parameter.
+* token: bearer token from client login (for User Register) or user login (for the rest of API).
 
 ### Authentication
 
 #### Client Login
-```php
-TrsEmas\Authentication::loginClient( bool $productionFlag, array $bodyParameters );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* bodyParameters: request body parameter.
-
-Example: 
 ```php
 $bodyParameters = [
     'client_id' => '(Treasury client id)',
@@ -40,15 +37,6 @@ $Tresury = TrsEmas\Authentication::loginClient( true, $bodyParameters );
 ```
 
 #### User Register
-```php
-TrsEmas\Authentication::register( bool $productionFlag, array $bodyParameters, string $token );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* bodyParameters: request body parameter.
-* token: bearer token from client login.
-
-Example: 
 ```php
 $bodyParameters = [
     'name' => 'Ryu Amy',
@@ -75,14 +63,6 @@ $Tresury = TrsEmas\Authentication::register( true, $bodyParameters, '(Bearer Tok
 
 #### User Login
 ```php
-TrsEmas\Authentication::login( bool $productionFlag, array $bodyParameters );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* bodyParameters: request body parameter.
-
-Example: 
-```php
 $bodyParameters = [
     'client_id' => '(Treasury client id)',
     'client_secret' => '(Treasury client secret)',
@@ -97,15 +77,6 @@ $Tresury = TrsEmas\Authentication::login( true, $bodyParameters );
 
 #### Gold Rate
 ```php
-TrsEmas\Transaction::goldRate( bool $productionFlag, array $bodyParameters, string $token );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* bodyParameters: request body parameter.
-* token: bearer token from user login.
-
-Example: 
-```php
 $bodyParameters = [
     'start_date' => '2021-03-03 09:00:00',
     'end_date' => '2021-03-03 10:00:00'
@@ -114,52 +85,154 @@ $bodyParameters = [
 $Tresury = TrsEmas\Transaction::goldRate( true, $bodyParameters, '(Bearer Token)' );
 ```
 
-#### Calculate
-```php
-TrsEmas\Transaction::calculate( bool $productionFlag, array $bodyParameters, string $token );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* bodyParameters: request body parameter.
-* token: bearer token from user login.
-
-Example: 
+#### Calculate Buy Amount Type Currency
 ```php
 $bodyParameters = [
-    'amount_type' => 'gold',
-    'amount' => '0.582',
-    'transaction_type' => 'buy',
-    'payment_type' => 'nett',
+    'amount_type' => 'currency',
+    'amount' => 400000,
     'payment_method' => 'bca',
 ];
 
-$Tresury = TrsEmas\Transaction::calculate( true, $bodyParameters, '(Bearer Token)' );
+$Tresury = TrsEmas\Transaction::calculateBuy( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Buy Amount Type Gold
+```php
+$bodyParameters = [
+    'amount_type' => 'gold',
+    'amount' => 0.582,
+    'payment_method' => 'bca',
+];
+
+$Tresury = TrsEmas\Transaction::calculateBuy( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Sell Amount Type Currency
+```php
+$bodyParameters = [
+    'amount_type' => 'currency',
+    'amount' => 50000,
+];
+
+$Tresury = TrsEmas\Transaction::calculateSell( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Sell Amount Type Gold
+```php
+$bodyParameters = [
+    'amount_type' => 'gold',
+    'amount' => 0.015,
+];
+
+$Tresury = TrsEmas\Transaction::calculateSell( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Buy Amount Type Currency For Partner
+```php
+$bodyParameters = [
+    'amount_type' => 'currency',
+    'amount' => 400000,
+];
+
+$Tresury = TrsEmas\Transaction::calculateBuyPartner( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Buy Amount Type Gold For Partner
+```php
+$bodyParameters = [
+    'amount_type' => 'gold',
+    'amount' => 0.582,
+];
+
+$Tresury = TrsEmas\Transaction::calculateBuyPartner( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Sell Amount Type Currency For Partner
+```php
+$bodyParameters = [
+    'amount_type' => 'currency',
+    'amount' => 50000,
+];
+
+$Tresury = TrsEmas\Transaction::calculateSellPartner( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Sell Amount Type Gold For Partner
+```php
+$bodyParameters = [
+    'amount_type' => 'gold',
+    'amount' => 0.015,
+];
+
+$Tresury = TrsEmas\Transaction::calculateSellPartner( true, $bodyParameters, '(Bearer Token)' );
 ```
 
 #### Payment Method
 ```php
-TrsEmas\Transaction::paymentMethod( bool $productionFlag, string $token );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* token: bearer token from user login.
-
-Example: 
-```php
 $Tresury = TrsEmas\Transaction::paymentMethod( true, '(Bearer Token)' );
+```
+
+#### Buy Gold
+```php
+$bodyParameters = [
+    'unit' => 1.8766253,
+    'total' => 796169,
+    'payment_channel' => 'BRIN',
+    'latitude' => '-6.914744',
+    'longitude' => '107.609810'
+];
+
+$Tresury = TrsEmas\Transaction::buy( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Buy Gold For Partner
+```php
+$bodyParameters = [
+    'invoice_number' => 'TRS42154451',
+    'unit' => 1.8766253,
+    'total' => 796169,
+    'payment_channel' => 'BRIN',
+    'latitude' => '-6.914744',
+    'longitude' => '107.609810'
+];
+
+$Tresury = TrsEmas\Transaction::buyPartner( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Sell Gold
+```php
+$bodyParameters = [
+    'total' => 31587,
+    'unit' => 0.0432,
+    'latitude' => '-6.914744',
+    'longitude' => '107.609810'
+];
+
+$Tresury = TrsEmas\Transaction::sell( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Payment Notify For Partner
+```php
+$bodyParameters = [
+    'invoice_number' => 'TRS42154451',
+    'payment_note' => 'Payment to BRI'
+];
+
+$Tresury = TrsEmas\Transaction::paymentNotify( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Apply Voucer Buy Gold
+```php
+$bodyParameters = [
+    'code' => 'TRSVCR1',
+];
+
+$Tresury = TrsEmas\Transaction::applyVoucher( true, $bodyParameters, '(Bearer Token)' );
 ```
 
 ### Additional
 
 #### Check Email Availability
-```php
-TrsEmas\Additional::checkEmailAvailability( bool $productionFlag, array $bodyParameters );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* bodyParameters: request body parameter.
-
-Example: 
 ```php
 $bodyParameters = [
     'email' => 'ryuamy.mail@gmail.com',
@@ -169,13 +242,6 @@ $Tresury = TrsEmas\Additional::checkEmailAvailability( true, $bodyParameters );
 ```
 
 #### Security Question
-```php
-TrsEmas\Additional::securityQuestion( bool $productionFlag );
-```
-Parameters: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-
-Example: 
 ```php
 $Tresury = TrsEmas\Additional::securityQuestion( true );
 ```
