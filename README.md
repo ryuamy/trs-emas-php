@@ -21,7 +21,7 @@ use Ryuamy\TrsEmas;
 
 ### Authentication
 
-**Login Client**
+#### Login Client
 ```php
 TrsEmas\Authentication::loginClient( bool $productionFlag, array $bodyParameters );
 ```
