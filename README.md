@@ -1,5 +1,5 @@
 # Treasury PHP API Third Party Library
-using Treasury API v2, please make sure Treasury API version and read API [procedure below](#procedure) for flow of registration and transaction.
+using [Treasury](https://www.treasury.id/) API v2, please make sure Treasury API version and read API [procedure below](#procedure) for flow of registration and transaction.
 
 
 
@@ -21,7 +21,7 @@ use Ryuamy\TrsEmas;
 
 ### Authentication
 
-#### Login Client
+#### Client Login
 ```php
 TrsEmas\Authentication::loginClient( bool $productionFlag, array $bodyParameters );
 ```
@@ -37,11 +37,9 @@ $bodyParameters = [
 ];
 
 $Tresury = TrsEmas\Authentication::loginClient( true, $bodyParameters );
-
-var_dump($Tresury);
 ```
 
-#### Register Customer
+#### User Register
 ```php
 TrsEmas\Authentication::register( bool $productionFlag, array $bodyParameters, string $token );
 ```
@@ -57,25 +55,25 @@ $bodyParameters = [
     'email' => 'ryuamy.mail@gmail.com',
     'password' => '(My Password)',
     'password_confirmation' => '(My Password)',
-    'gender' => 'female', //female or male
+    'gender' => 'female',
     'birthday' => '1991-01-01',
-    'referral_code' => '', //leave empty if you don't have referral code
+    'referral_code' => '',
     'phone' => '081312345678',
-    'security_question' => 'KQxz9YXazA14VEO', //id of API security question
+    'security_question' => 'KQxz9YXazA14VEO',
     'security_question_answer' => 'Sebastian Michaelis',
-    'selfie_scan' => '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQ...', //optional //Base64
-    'id_card_scan' => '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQ...', //optional //Base64
-    'owner_name' => 'Ryu Amy', //optional
-    'account_number' => '123456', //optional
-    'bank_code' => 'string', //optional //id of API security question
-    'branch' => 'Jakarta', //optional
+    'selfie_scan' => '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQ...',
+    'id_card_scan' => '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQ...',
+    'owner_name' => 'Ryu Amy',
+    'account_number' => '123456',
+    'bank_code' => 'string',
+    'branch' => 'Jakarta',
     'customer_concern' => false
 ];
 
 $Tresury = TrsEmas\Authentication::register( true, $bodyParameters, '(Bearer Token)' );
 ```
 
-#### Login Customer
+#### User Login
 ```php
 TrsEmas\Authentication::login( bool $productionFlag, array $bodyParameters );
 ```
@@ -99,19 +97,56 @@ $Tresury = TrsEmas\Authentication::login( true, $bodyParameters );
 
 #### Gold Rate
 ```php
-TrsEmas\Transaction::checkEmailAvailability( bool $productionFlag, array $bodyParameters );
+TrsEmas\Transaction::goldRate( bool $productionFlag, array $bodyParameters, string $token );
 ```
 Parameters: 
 * productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
 * bodyParameters: request body parameter.
+* token: bearer token from user login.
 
 Example: 
 ```php
 $bodyParameters = [
-    'email' => 'ryuamy.mail@gmail.com',
+    'start_date' => '2021-03-03 09:00:00',
+    'end_date' => '2021-03-03 10:00:00'
 ];
 
-$Tresury = TrsEmas\Additional::checkEmailAvailability( true, $bodyParameters );
+$Tresury = TrsEmas\Transaction::goldRate( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate
+```php
+TrsEmas\Transaction::calculate( bool $productionFlag, array $bodyParameters, string $token );
+```
+Parameters: 
+* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
+* bodyParameters: request body parameter.
+* token: bearer token from user login.
+
+Example: 
+```php
+$bodyParameters = [
+    'amount_type' => 'gold',
+    'amount' => '0.582',
+    'transaction_type' => 'buy',
+    'payment_type' => 'nett',
+    'payment_method' => 'bca',
+];
+
+$Tresury = TrsEmas\Transaction::calculate( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Payment Method
+```php
+TrsEmas\Transaction::paymentMethod( bool $productionFlag, string $token );
+```
+Parameters: 
+* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
+* token: bearer token from user login.
+
+Example: 
+```php
+$Tresury = TrsEmas\Transaction::paymentMethod( true, '(Bearer Token)' );
 ```
 
 ### Additional
@@ -135,30 +170,29 @@ $Tresury = TrsEmas\Additional::checkEmailAvailability( true, $bodyParameters );
 
 #### Security Question
 ```php
-TrsEmas\Additional::getSecurityQuestion( bool $productionFlag );
+TrsEmas\Additional::securityQuestion( bool $productionFlag );
 ```
 Parameters: 
 * productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
 
 Example: 
 ```php
-$Tresury = TrsEmas\Additional::getSecurityQuestion( true );
+$Tresury = TrsEmas\Additional::securityQuestion( true );
 ```
 
 
 
 ## Procedure
 
-## Gold Transaction
+### Gold Transaction
 To create gold transaction with treasury payment method, the following procedure is:
-1. Get gold price
-2. Calculate gold transaction with currency or unit
-3. Get payment method list to take payment_code response
-STRICTLY CONFIDENTIAL – TREASURY API DOCUMENTATION 10
-4. Do transactions with endpoints gold buy and sell gold
+1. Get gold rate.
+2. Calculate gold transaction with currency or unit. Gold unit support can be up to 4 digits.
+3. Get payment method list to take payment_code response.
+4. Do transactions with endpoints gold buy and sell gold.
 
 To create gold transaction with partner payment method, the following procedure is:
-1. Get gold price
-2. Calculate gold transaction with currency or unit
-3. Do transactions with endpoints gold buy and sell gold
-4. Hit endpoint payment notify to ensure payment has been successful
+1. Get gold rate.
+2. Calculate gold transaction with currency or unit. Gold unit support can be up to 4 digits
+3. Do transactions with endpoints gold buy and sell gold.
+4. Hit endpoint payment notify to ensure payment has been successful.

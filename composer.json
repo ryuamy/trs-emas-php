@@ -1,0 +1,22 @@
+{
+    "name": "ryuamy/trs-emas-php",
+    "description": "Treasury PHP API Third Party Library",
+    "version": "0.1.0",
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Ryu Amy",
+            "email": "ryuamy.mail@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Ryuamy\\TrsEmas\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.2.0"
+    }
+}
