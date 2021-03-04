@@ -1,5 +1,5 @@
 # Treasury PHP API Third Party Library
-using [Treasury](https://www.treasury.id/) API v2, please make sure Treasury API version you gonna use and read API [procedure below](#procedure) for flow of registration and transaction.
+using [Treasury](https://www.treasury.id/) API v2.2, please make sure Treasury API version you gonna use and read API [procedure below](#procedure) for flow of registration and transaction.
 
 
 
@@ -11,18 +11,25 @@ composer require ryuamy/trs-emas-php
 
 
 ## Call Package
-Add following code on your controller:
+Add following code on your project:
 ```php
 use Ryuamy\TrsEmas;
 ```
 
 
-## Usages and Example
-
+## Usages
+```php
+TrsEmas\Class::function( $productionFlag, $bodyParameters, $token );
+```
 Parameters detail: 
-* productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API.
-* bodyParameters: request body parameter.
-* token: bearer token from client login (for User Register) or user login (for the rest of API).
+* $productionFlag: if set to true, package will hit Treasury production API, false to hit Treasury staging API. Mandatory on all class.
+* $bodyParameters: request body parameter. Optional on some Class.
+* $token: bearer token from client login (for User Register) or user login (for the rest of API). Optional on some class.
+
+Look at [example](#example) to see parameter requirement on each class.
+
+
+## Example
 
 ### Authentication
 
@@ -199,16 +206,13 @@ $bodyParameters = [
 $Tresury = TrsEmas\Transaction::buyPartner( true, $bodyParameters, '(Bearer Token)' );
 ```
 
-#### Sell Gold
+#### Apply Voucer Buy Gold
 ```php
 $bodyParameters = [
-    'total' => 31587,
-    'unit' => 0.0432,
-    'latitude' => '-6.914744',
-    'longitude' => '107.609810'
+    'code' => 'TRSVCR1',
 ];
 
-$Tresury = TrsEmas\Transaction::sell( true, $bodyParameters, '(Bearer Token)' );
+$Tresury = TrsEmas\Transaction::applyVoucher( true, $bodyParameters, '(Bearer Token)' );
 ```
 
 #### Payment Notify For Partner
@@ -221,13 +225,110 @@ $bodyParameters = [
 $Tresury = TrsEmas\Transaction::paymentNotify( true, $bodyParameters, '(Bearer Token)' );
 ```
 
-#### Apply Voucer Buy Gold
+#### Sell Gold
 ```php
 $bodyParameters = [
-    'code' => 'TRSVCR1',
+    'total' => 31587,
+    'unit' => 0.0432,
+    'latitude' => '-6.914744',
+    'longitude' => '107.609810'
 ];
 
-$Tresury = TrsEmas\Transaction::applyVoucher( true, $bodyParameters, '(Bearer Token)' );
+$Tresury = TrsEmas\Transaction::sell( true, $bodyParameters, '(Bearer Token)' );
+```
+
+### Minting
+
+#### Minting Partner
+```php
+$Tresury = TrsEmas\Minting::mintingPartner( true, '(Bearer Token)' );
+```
+
+#### Minting Fee
+```php
+$bodyParameters = [
+    'minting_partner' => 'x6A3lOoJXL59zDd'
+];
+
+$Tresury = TrsEmas\Minting::mintingFee( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Minting Piece
+```php
+$bodyParameters = [
+    'minting_partner' => 'x6A3lOoJXL59zDd'
+];
+
+$Tresury = TrsEmas\Minting::mintingPiece( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Calculate Minting
+```php
+$bodyParameters = [
+    'minting_partner' => 'x6A3lOoJXL59zDd',
+    'minting_fee' => 'JGYPjrXW7XDw2mE',
+    'minting_piece' => 'KQxz9YXazA14VEO',
+    'minting_shipping' => '7Jb1VXLrzpm69xv'
+];
+
+$Tresury = TrsEmas\Minting::calculateMinting( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Gold Minting
+```php
+$bodyParameters = [
+    'minting_partner' => 'x6A3lOoJXL59zDd',
+    'minting_fee' => 'JGYPjrXW7XDw2mE',
+    'minting_piece' => 'KQxz9YXazA14VEO',
+    'minting_shipping' => '7Jb1VXLrzpm69xv',
+    'shipping_address' => 'Jalan Prapanca, Jakarta Selatan',
+    'payment_channel' => 'BRIN',
+    'latitude' => '-6.914744',
+    'longitude' => '107.609810',
+];
+
+$Tresury = TrsEmas\Minting::goldMinting( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Gold Minting For Partner
+```php
+$bodyParameters = [
+    'minting_partner' => 'x6A3lOoJXL59zDd',
+    'minting_fee' => 'JGYPjrXW7XDw2mE',
+    'minting_piece' => 'KQxz9YXazA14VEO',
+    'minting_shipping' => '7Jb1VXLrzpm69xv',
+    'shipping_address' => 'Jalan Prapanca, Jakarta Selatan',
+    'payment_channel' => 'BRIN',
+    'latitude' => '-6.914744',
+    'longitude' => '107.609810',
+];
+
+$Tresury = TrsEmas\Minting::goldMintingPartner( true, $bodyParameters, '(Bearer Token)' );
+```
+
+### User
+
+#### Get Profile
+```php
+$Tresury = TrsEmas\User::profile( true, '(Bearer Token)' );
+```
+
+#### Update Profile
+only get Treasury update profile URL
+```php
+$Tresury = TrsEmas\User::updateProfile( true, '(Bearer Token)' );
+```
+
+#### Update Password
+```php
+$bodyParameters = [
+    'email' => 'ryuamy.mail@gmail.com',
+    'password' => '(New Password)',
+    'password_confirmation' => '(New Password)',
+    'pin' => '12345',
+];
+
+$Tresury = TrsEmas\User::updatePassword( true, $bodyParameters, '(Bearer Token)' );
 ```
 
 ### Additional
@@ -246,6 +347,10 @@ $Tresury = TrsEmas\Additional::checkEmailAvailability( true, $bodyParameters );
 $Tresury = TrsEmas\Additional::securityQuestion( true );
 ```
 
+#### Bank List
+```php
+$Tresury = TrsEmas\Additional::bankList( true );
+```
 
 
 ## Procedure
@@ -262,3 +367,11 @@ To create gold transaction with partner payment method, the following procedure 
 2. Calculate gold transaction with currency or unit. Gold unit support can be up to 4 digits
 3. Do transactions with endpoints gold buy and sell gold.
 4. Hit endpoint payment notify to ensure payment has been successful.
+
+### Minting or Cetak Emas
+1. Get minting partner list.
+2. Check minting fee of selected partner.
+3. Check available minting piece of selected partner.
+4. Calculate total minting payment.
+5. Get payment method list to take payment_code response.
+6. Do transactions.

@@ -71,4 +71,19 @@ class Additional
     {
         return Api::sendRequest( 'security-question', $flag, 'GET' );
     }
+
+    /**
+     * Get list of bank.
+     *
+     * @param   boolean     $flag
+     *
+     * @return object
+     *
+     * @throws \TypeError
+     * @throws \ArgumentCountError
+     */
+    public static function bankList(bool $flag = false) : object
+    {
+        return Api::sendRequest( 'bank-list', $flag, 'GET' );
+    }
 }
