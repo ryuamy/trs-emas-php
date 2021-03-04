@@ -1,4 +1,5 @@
 # Treasury PHP API Third Party Library
+
 [![license](https://img.shields.io/packagist/l/ryuamy/trs-emas-php?color=green)](https://packagist.org/packages/ryuamy/trs-emas-php)
 
 using [Treasury](https://www.treasury.id/) API v2.2, please make sure Treasury API version you gonna use and read API [procedure below](#procedure) for flow of registration and transaction.
@@ -331,6 +332,56 @@ $bodyParameters = [
 ];
 
 $Tresury = TrsEmas\User::updatePassword( true, $bodyParameters, '(Bearer Token)' );
+```
+
+### History
+
+#### Buy Gold History
+only get Treasury update profile URL
+```php
+$Tresury = TrsEmas\History::buyGoldHistory( true, '(Bearer Token)' );
+```
+
+#### Sell Gold History
+only get Treasury update profile URL
+```php
+$Tresury = TrsEmas\History::sellGoldHistory( true, '(Bearer Token)' );
+```
+
+#### Gold Minting History
+only get Treasury update profile URL
+```php
+$Tresury = TrsEmas\History::goldMintingHistory( true, '(Bearer Token)' );
+```
+
+#### Buy Gold Detail History
+only get Treasury update profile URL
+```php
+$bodyParameters = [
+    'invoice_no' => 'TRS42154451',
+];
+
+$Tresury = TrsEmas\History::buyGoldDetailHistory( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Sell Gold Detail History
+only get Treasury update profile URL
+```php
+$bodyParameters = [
+    'invoice_no' => 'TRS42154451',
+];
+
+$Tresury = TrsEmas\History::sellGoldDetailHistory( true, $bodyParameters, '(Bearer Token)' );
+```
+
+#### Gold Minting Detail History
+only get Treasury update profile URL
+```php
+$bodyParameters = [
+    'invoice_no' => 'TRS42154451',
+];
+
+$Tresury = TrsEmas\History::goldMintingDetailHistory( true, $bodyParameters, '(Bearer Token)' );
 ```
 
 ### Additional
