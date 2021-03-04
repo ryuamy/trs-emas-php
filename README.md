@@ -1,5 +1,5 @@
 # Treasury PHP API Third Party Library
-[![license](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://github.com/ryuamy/trs-emas-php)
+[![license](https://img.shields.io/packagist/l/ryuamy/trs-emas-php?color=green)](https://packagist.org/packages/ryuamy/trs-emas-php)
 
 using [Treasury](https://www.treasury.id/) API v2.2, please make sure Treasury API version you gonna use and read API [procedure below](#procedure) for flow of registration and transaction.
 
