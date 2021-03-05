@@ -338,25 +338,21 @@ $Tresury = TrsEmas\User::updatePassword( true, $bodyParameters, '(Bearer Token)'
 ### History
 
 #### Buy Gold History
-only get Treasury update profile URL
 ```php
 $Tresury = TrsEmas\History::buyGoldHistory( true, '(Bearer Token)' );
 ```
 
 #### Sell Gold History
-only get Treasury update profile URL
 ```php
 $Tresury = TrsEmas\History::sellGoldHistory( true, '(Bearer Token)' );
 ```
 
 #### Gold Minting History
-only get Treasury update profile URL
 ```php
 $Tresury = TrsEmas\History::goldMintingHistory( true, '(Bearer Token)' );
 ```
 
 #### Buy Gold Detail History
-only get Treasury update profile URL
 ```php
 $bodyParameters = [
     'invoice_no' => 'TRS42154451',
@@ -366,7 +362,6 @@ $Tresury = TrsEmas\History::buyGoldDetailHistory( true, $bodyParameters, '(Beare
 ```
 
 #### Sell Gold Detail History
-only get Treasury update profile URL
 ```php
 $bodyParameters = [
     'invoice_no' => 'TRS42154451',
@@ -376,7 +371,6 @@ $Tresury = TrsEmas\History::sellGoldDetailHistory( true, $bodyParameters, '(Bear
 ```
 
 #### Gold Minting Detail History
-only get Treasury update profile URL
 ```php
 $bodyParameters = [
     'invoice_no' => 'TRS42154451',
