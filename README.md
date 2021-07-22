@@ -71,6 +71,10 @@ $bodyParameters = [
 
 $Tresury = TrsEmas\Authentication::register( true, $bodyParameters, '(Bearer Token)' );
 ```
+Notes:
+* Bearer Token get from [Client Login](#client-login) response
+* security_question value using [Security Question](#security-question) response
+* bank_code value using [Bank List](#bank-list) response
 
 #### User Login
 ```php
@@ -256,6 +260,8 @@ $bodyParameters = [
 
 $Tresury = TrsEmas\Minting::mintingFee( true, $bodyParameters, '(Bearer Token)' );
 ```
+Notes:
+* minting_partner value using [Minting Partner](#minting-partner) response
 
 #### Minting Piece
 ```php
@@ -265,6 +271,19 @@ $bodyParameters = [
 
 $Tresury = TrsEmas\Minting::mintingPiece( true, $bodyParameters, '(Bearer Token)' );
 ```
+Notes:
+* minting_partner value using [Minting Partner](#minting-partner) response
+
+#### Minting Shipping
+```php
+$bodyParameters = [
+    'minting_partner' => 'x6A3lOoJXL59zDd'
+];
+
+$Tresury = TrsEmas\Minting::mintingShipping( true, $bodyParameters, '(Bearer Token)' );
+```
+Notes:
+* minting_partner value using [Minting Partner](#minting-partner) response
 
 #### Calculate Minting
 ```php
@@ -277,6 +296,11 @@ $bodyParameters = [
 
 $Tresury = TrsEmas\Minting::calculateMinting( true, $bodyParameters, '(Bearer Token)' );
 ```
+Notes:
+* minting_partner value using [Minting Partner](#minting-partner) response
+* minting_fee value using [Minting Fee](#minting-fee) response
+* minting_piece value using [Minting Piece](#minting-piece) response
+* minting_shipping value using [Minting Shipping](#minting-shipping) response
 
 #### Gold Minting
 ```php
@@ -403,6 +427,11 @@ $Tresury = TrsEmas\Additional::bankList( true );
 
 ## Procedure
 
+### Registration
+1. Get Bearer Token from Client Login API
+2. Get security code list from Security Question API
+3. Get bank list from Bank List API
+4. Do customer registration
 ### Gold Transaction
 To create gold transaction with treasury payment method, the following procedure is:
 1. Get gold rate.

@@ -58,6 +58,24 @@ class Minting
     ];
 
     /**
+     * Required parameters for Minting Shipping.
+     *
+     * @var array
+     */
+    private static $mintingShippingRequiredParams = [
+        'minting_partner'
+    ];
+
+    /**
+     * Required parameter types for Minting Shipping.
+     *
+     * @var array
+     */
+    private static $mintingShippingTypeParams = [
+        'minting_partner' => 'string' //value from code of minting partner API
+    ];
+
+    /**
      * Required parameters for Calculate Minting.
      *
      * @var array
