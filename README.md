@@ -1,4 +1,4 @@
-# Treasury API Third Party PHP Library
+# Treasury API Third Party PHP Package
 
 [![license](https://img.shields.io/packagist/l/ryuamy/trs-emas-php?color=green)](https://packagist.org/packages/ryuamy/trs-emas-php)
 [![release](https://img.shields.io/github/v/release/ryuamy/trs-emas-php?color=orange&include_prereleases)](https://packagist.org/packages/ryuamy/trs-emas-php)
